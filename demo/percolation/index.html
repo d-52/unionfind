@@ -1,0 +1,33 @@
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Percolation Visualizer</title>
+		<style>
+			body > * {margin:5px;}
+			#percolationView {display:flex;flex-flow:row;}
+			.row {background:#aaa;}
+			.row.current {box-shadow:0 0 10px red; z-index:100;}
+			.cell {width:40px;height:40px;border: solid 1px black; cursor:pointer; transition: all .3s}
+			.cell.open {background: white; box-shadow: 0 0 10px white; z-index:200;}
+			.cell.full {background: blue; box-shadow: 0 0 10px blue; z-index:200;}
+		</style>
+		<script src="wasm_exec.js"></script>
+		<script>
+			const go = new Go();
+			WebAssembly.instantiateStreaming(fetch('main.wasm'),go.importObject).then( res=> {
+				go.run(res.instance)	
+			})
+		</script>
+	</head>
+	<body>
+		<div id="percolationView"></div>
+		<div class="info"> 
+			<span>Open sites :&nbsp;</open>
+			<span id="opensites">80</span>
+			<span>&nbsp;/ 256 (total)</span><br />
+			<span>Percolates :&nbsp;</open>
+			<span id="percolates">False</span>
+		</div>
+	</body>
+</html>

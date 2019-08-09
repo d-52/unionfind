@@ -58,22 +58,11 @@ func (v *percolationView) next() {
 	row := rand.Intn(16) + 1
 	col := rand.Intn(16) + 1
 
-	// rows := fmt.Sprintf("row : %d", row)
-	// cols := fmt.Sprintf("col : %d", col)
-	// js.Global().Get("console").Call("log", rows)
-	// js.Global().Get("console").Call("log", cols)
-
 	v.per.Open(p.Site{Row: row, Col: col})
 	v.openCell(row, col)
 
 	if v.per.IsFull(p.Site{Row: row, Col: col}) {
-		// js.Global().Get("console").Call("log", row)
-		// js.Global().Get("console").Call("log", col)
 		v.updatePercolation()
-		// id := fmt.Sprintf("cell_%d_%d", row, col)
-		// cell := js.Global().Get("document").Call("getElementById", id)
-		// cell.Get("classList").Call("remove", "open")
-		// cell.Get("classList").Call("add", "full")
 	}
 }
 

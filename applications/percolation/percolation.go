@@ -35,6 +35,12 @@ func (p *Percolation) init(gridSize int) *Percolation {
 	return p
 }
 
+// calls union on uf s
+func (p *Percolation) union(x, y int) {
+	p.ufup.Union(x, y)
+	p.ufdown.Union(x, y)
+}
+
 // Connect neightbours
 func (p *Percolation) connect(s Site) {
 	if !s.isValid(p.gridSize) {
@@ -43,28 +49,23 @@ func (p *Percolation) connect(s Site) {
 	siteIndex := s.toIndex(p.gridSize)
 	// Connect top
 	if s.Row > 1 && p.IsOpen(Site{Row: s.Row - 1, Col: s.Col}) {
-		p.ufup.Union(p.xyToIndex(s.Row-1, s.Col), siteIndex)
-		p.ufdown.Union(p.xyToIndex(s.Row-1, s.Col), siteIndex)
+		p.union(p.xyToIndex(s.Row-1, s.Col), siteIndex)
 	}
 	// Connect Bottom
 	if s.Row < p.gridSize && p.IsOpen(Site{Row: s.Row + 1, Col: s.Col}) {
-		p.ufup.Union(p.xyToIndex(s.Row+1, s.Col), siteIndex)
-		p.ufdown.Union(p.xyToIndex(s.Row+1, s.Col), siteIndex)
+		p.union(p.xyToIndex(s.Row+1, s.Col), siteIndex)
 	}
 	// Connect Left
 	if s.Col > 1 && p.IsOpen(Site{Row: s.Row, Col: s.Col - 1}) {
-		p.ufup.Union(p.xyToIndex(s.Row, s.Col-1), siteIndex)
-		p.ufdown.Union(p.xyToIndex(s.Row, s.Col-1), siteIndex)
+		p.union(p.xyToIndex(s.Row, s.Col-1), siteIndex)
 	}
 	// Connect Right
 	if s.Col < p.gridSize && p.IsOpen(Site{Row: s.Row, Col: s.Col + 1}) {
-		p.ufup.Union(p.xyToIndex(s.Row, s.Col+1), siteIndex)
-		p.ufdown.Union(p.xyToIndex(s.Row, s.Col+1), siteIndex)
+		p.union(p.xyToIndex(s.Row, s.Col+1), siteIndex)
 	}
 	// Connect Top
 	if s.Row == 1 {
-		p.ufup.Union(0, siteIndex)
-		p.ufdown.Union(0, siteIndex)
+		p.union(0, siteIndex)
 	}
 	// Connect Bottom
 	if s.Row == p.gridSize {

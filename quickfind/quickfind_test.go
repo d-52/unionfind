@@ -8,7 +8,7 @@ var intLarge = 100000
 
 func TestNew(t *testing.T) {
 	uf := New(intSmall)
-	if len(uf.id) != intSmall {
+	if len(uf.ID) != intSmall {
 		t.Errorf("New(5) = lenght expected to be %d", intSmall)
 	}
 }

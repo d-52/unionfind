@@ -1,0 +1,12 @@
+BenchmarkNewSmall-8          	20000000	       104 ns/op	     224 B/op	       3 allocs/op
+BenchmarkNewMedium-8         	  500000	      2884 ns/op	   16448 B/op	       3 allocs/op
+BenchmarkNewLarge-8          	     500	   3335226 ns/op	16007242 B/op	       3 allocs/op
+BenchmarkFindSmall-8         	1000000000	         2.79 ns/op	       0 B/op	       0 allocs/op
+BenchmarkFindMedium-8        	1000000000	         2.62 ns/op	       0 B/op	       0 allocs/op
+BenchmarkFindLarge-8         	1000000000	         2.79 ns/op	       0 B/op	       0 allocs/op
+BenchmarkUnionSmall-8        	200000000	         9.72 ns/op	       0 B/op	       0 allocs/op
+BenchmarkUnionMedium-8       	50000000	        37.2 ns/op	       0 B/op	       0 allocs/op
+BenchmarkUnionLarge-8        	 5000000	       393 ns/op	       3 B/op	       0 allocs/op
+BenchmarkConnectedSmall-8    	200000000	         8.16 ns/op	       0 B/op	       0 allocs/op
+BenchmarkConnectedMedium-8   	200000000	         7.93 ns/op	       0 B/op	       0 allocs/op
+BenchmarkConnectedLarge-8    	200000000	         7.93 ns/op	       0 B/op	       0 allocs/op

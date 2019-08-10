@@ -1,4 +1,4 @@
-package quickunion
+package wquickunion
 
 import "testing"
 
@@ -8,8 +8,8 @@ var intLarge = 1000000
 
 func TestNew(t *testing.T) {
 	uf := New(intSmall)
-	if len(uf.ID) != intSmall {
-		t.Errorf("New(5) = lenght expected to be %d", intSmall)
+	if uf.count != intSmall {
+		t.Errorf("New(5) = count expected to be %d", intSmall)
 	}
 }
 

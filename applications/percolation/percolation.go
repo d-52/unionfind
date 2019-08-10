@@ -1,13 +1,13 @@
 package percolation
 
 import (
-	"github.com/d-52/unionfind/quickfind"
+	"github.com/d-52/unionfind/quickunion"
 )
 
 // Percolation is a dynamic connection application
 type Percolation struct {
-	ufup         *quickfind.UnionFind
-	ufdown       *quickfind.UnionFind
+	ufup         *quickunion.UnionFind
+	ufdown       *quickunion.UnionFind
 	openSites    [][]bool
 	NumOpenSites int
 	gridSize     int
@@ -25,8 +25,8 @@ func New(size int) *Percolation {
 
 func (p *Percolation) init(gridSize int) *Percolation {
 	p = new(Percolation)
-	p.ufup = quickfind.New(gridSize*gridSize + 1) // without bottom index
-	p.ufdown = quickfind.New(gridSize*gridSize + 2)
+	p.ufup = quickunion.New(gridSize*gridSize + 1) // without bottom index
+	p.ufdown = quickunion.New(gridSize*gridSize + 2)
 	p.gridSize = gridSize
 	p.openSites = make([][]bool, gridSize)
 	for j := range p.openSites {

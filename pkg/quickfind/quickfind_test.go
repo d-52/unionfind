@@ -1,6 +1,10 @@
-package quickfind
+package quickfind_test
 
-import "testing"
+import (
+	"testing"
+
+	. "github.com/d-52/unionfind/quickfind"
+)
 
 var intSmall = 10
 var intMedium = 1000

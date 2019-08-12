@@ -1,6 +1,10 @@
-package wquickunion
+package quickunion_test
 
-import "testing"
+import (
+	"testing"
+
+	. "github.com/d-52/unionfind/quickunion"
+)
 
 var intSmall = 10
 var intMedium = 1000
@@ -8,8 +12,8 @@ var intLarge = 1000000
 
 func TestNew(t *testing.T) {
 	uf := New(intSmall)
-	if uf.count != intSmall {
-		t.Errorf("New(5) = count expected to be %d", intSmall)
+	if len(uf.ID) != intSmall {
+		t.Errorf("New(5) = lenght expected to be %d", intSmall)
 	}
 }
 

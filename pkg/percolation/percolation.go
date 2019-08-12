@@ -6,11 +6,11 @@ import (
 
 // Percolation is a dynamic connection application
 type Percolation struct {
-	ufup         *wquickunion.UnionFind
-	ufdown       *wquickunion.UnionFind
-	openSites    [][]bool
+	UFUp         *wquickunion.UnionFind
+	UFDown       *wquickunion.UnionFind
+	OpenSites    [][]bool
 	NumOpenSites int
-	gridSize     int
+	GridSize     int
 }
 
 // Site is the single unit on grid
@@ -23,36 +23,36 @@ func New(size int) *Percolation {
 	return new(Percolation).init(size)
 }
 
-func (p *Percolation) init(gridSize int) *Percolation {
+func (p *Percolation) init(GridSize int) *Percolation {
 	p = new(Percolation)
-	p.ufup = wquickunion.New(gridSize*gridSize + 1) // without bottom index
-	p.ufdown = wquickunion.New(gridSize*gridSize + 2)
-	p.gridSize = gridSize
-	p.openSites = make([][]bool, gridSize)
-	for j := range p.openSites {
-		p.openSites[j] = make([]bool, gridSize)
+	p.UFUp = wquickunion.New(GridSize*GridSize + 1) // without bottom index
+	p.UFDown = wquickunion.New(GridSize*GridSize + 2)
+	p.GridSize = GridSize
+	p.OpenSites = make([][]bool, GridSize)
+	for j := range p.OpenSites {
+		p.OpenSites[j] = make([]bool, GridSize)
 	}
 	return p
 }
 
 // calls union on uf s
 func (p *Percolation) union(x, y int) {
-	p.ufup.Union(x, y)
-	p.ufdown.Union(x, y)
+	p.UFUp.Union(x, y)
+	p.UFDown.Union(x, y)
 }
 
 // Connect neightbours
 func (p *Percolation) connect(s Site) {
-	if !s.isValid(p.gridSize) {
+	if !s.isValid(p.GridSize) {
 		return
 	}
-	siteIndex := s.toIndex(p.gridSize)
+	siteIndex := s.ToIndex(p.GridSize)
 	// Connect top
 	if s.Row > 1 && p.IsOpen(Site{Row: s.Row - 1, Col: s.Col}) {
 		p.union(p.xyToIndex(s.Row-1, s.Col), siteIndex)
 	}
 	// Connect Bottom
-	if s.Row < p.gridSize && p.IsOpen(Site{Row: s.Row + 1, Col: s.Col}) {
+	if s.Row < p.GridSize && p.IsOpen(Site{Row: s.Row + 1, Col: s.Col}) {
 		p.union(p.xyToIndex(s.Row+1, s.Col), siteIndex)
 	}
 	// Connect Left
@@ -60,7 +60,7 @@ func (p *Percolation) connect(s Site) {
 		p.union(p.xyToIndex(s.Row, s.Col-1), siteIndex)
 	}
 	// Connect Right
-	if s.Col < p.gridSize && p.IsOpen(Site{Row: s.Row, Col: s.Col + 1}) {
+	if s.Col < p.GridSize && p.IsOpen(Site{Row: s.Row, Col: s.Col + 1}) {
 		p.union(p.xyToIndex(s.Row, s.Col+1), siteIndex)
 	}
 	// Connect Top
@@ -68,47 +68,47 @@ func (p *Percolation) connect(s Site) {
 		p.union(0, siteIndex)
 	}
 	// Connect Bottom
-	if s.Row == p.gridSize {
-		p.ufdown.Union(p.gridSize*p.gridSize+1, siteIndex)
+	if s.Row == p.GridSize {
+		p.UFDown.Union(p.GridSize*p.GridSize+1, siteIndex)
 	}
 }
 
 // Open opens
 func (p *Percolation) Open(s Site) {
-	if !s.isValid(p.gridSize) {
+	if !s.isValid(p.GridSize) {
 		return
 	}
 	if !p.IsOpen(s) {
 		p.NumOpenSites++
-		p.openSites[s.Row-1][s.Col-1] = true
+		p.OpenSites[s.Row-1][s.Col-1] = true
 		p.connect(s)
 	}
 }
 
 // IsOpen check
 func (p Percolation) IsOpen(s Site) bool {
-	if !s.isValid(p.gridSize) {
+	if !s.isValid(p.GridSize) {
 		return false
 	}
-	return p.openSites[s.Row-1][s.Col-1]
+	return p.OpenSites[s.Row-1][s.Col-1]
 }
 
 // IsFull check
 func (p Percolation) IsFull(s Site) bool {
-	if !s.isValid(p.gridSize) {
+	if !s.isValid(p.GridSize) {
 		return false
 	}
-	return p.ufup.Connected(s.toIndex(p.gridSize), 0)
+	return p.UFUp.Connected(s.ToIndex(p.GridSize), 0)
 }
 
 // Percolates make percolation check
 func (p Percolation) Percolates() bool {
-	return p.ufdown.Connected(0, p.gridSize*p.gridSize+1)
+	return p.UFDown.Connected(0, p.GridSize*p.GridSize+1)
 }
 
 // xyToIndex conversion
 func (p Percolation) xyToIndex(row, col int) int {
-	return 1 + (row-1)*p.gridSize + (col - 1)
+	return 1 + (row-1)*p.GridSize + (col - 1)
 }
 
 // Site Validator
@@ -119,7 +119,7 @@ func (s Site) isValid(size int) bool {
 	return true
 }
 
-// toIndex conversion
-func (s Site) toIndex(gridSize int) int {
-	return 1 + (s.Row-1)*gridSize + (s.Col - 1)
+// ToIndex conversion
+func (s Site) ToIndex(GridSize int) int {
+	return 1 + (s.Row-1)*GridSize + (s.Col - 1)
 }
